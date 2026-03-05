@@ -17,7 +17,7 @@ The core modeling approach uses Feed-Forward Neural Networks (FFNN) trained on f
 
 ---
 
-# Dataset
+## Dataset
 
 The dataset contains financial indicators for publicly traded healthcare companies.
 
@@ -41,7 +41,7 @@ Examples of indicators include:
 
 ---
 
-# Data Preparation
+## Data Preparation
 
 Several preprocessing steps were applied before training the models.
 
@@ -54,27 +54,23 @@ To improve model reliability:
 - missing values were replaced with column mean values
 - columns with more than 50% missing values were removed
 
----
-
 ### Standardization
 
 All numerical features were standardized before training in order to prevent variables with larger scales from dominating the learning process.
 
 ---
 
-# Feature Engineering
+## Feature Engineering
 
 Two different feature approaches were analyzed.
 
-## Individual Financial Indicators
+### Individual Financial Indicators
 
 The first approach uses individual financial ratios directly as input features for the neural network.
 
 This preserves detailed information about each financial indicator.
 
----
-
-## Aggregated Financial Indicators
+### Aggregated Financial Indicators
 
 The second approach uses aggregated indicators constructed from groups of financial ratios.
 
@@ -87,7 +83,7 @@ This approach reduces dimensionality and creates composite indicators representi
 
 ---
 
-# Machine Learning Model
+## Machine Learning Model
 
 The primary model used in the experiments is a Feed-Forward Neural Network implemented using the MLPClassifier algorithm.
 
@@ -103,7 +99,7 @@ Multiple network architectures were tested with different numbers of hidden laye
 
 ---
 
-# Data Split
+## Data Split
 
 The dataset was divided into:
 
@@ -115,7 +111,7 @@ The validation set was used for model selection before evaluating final performa
 
 ---
 
-# Prediction Tasks
+## Prediction Tasks
 
 Three modeling approaches were explored.
 
@@ -135,9 +131,9 @@ Using aggregated financial indicators as input features to examine whether aggre
 
 ---
 
-# Model Selection
+## Model Selection
 
-A custom metric called **Selection Score** was used to select the best model architectures.
+A custom metric called Selection Score was used to select the best model architectures.
 
 For regression tasks the score balances validation performance and overfitting risk.
 
@@ -145,7 +141,7 @@ For classification tasks the score combines precision and generalization ability
 
 ---
 
-# Experiments
+## Experiments
 
 Several experiments were conducted in order to evaluate the predictive capabilities of neural networks trained on financial indicators.
 
@@ -161,11 +157,11 @@ The experiments compare the performance of models trained on:
 - raw financial ratios
 - aggregated financial indicators
 
-This allows analysis of how **feature dimensionality and information aggregation affect prediction performance**.
+This allows analysis of how feature dimensionality and information aggregation affect prediction performance.
 
 ---
 
-# Key Research Questions
+## Key Research Questions
 
 The project investigates several research questions:
 
@@ -176,7 +172,7 @@ The project investigates several research questions:
 
 ---
 
-# Technologies
+## Technologies
 
 The project uses tools and concepts from the following areas:
 
@@ -186,20 +182,57 @@ The project uses tools and concepts from the following areas:
 - Data Preprocessing
 - Feature Engineering
 
-Typical tools used in the implementation include:
+Tools used in the implementation include:
 
 - Python
 - NumPy
 - Pandas
 - Scikit-learn
 - Jupyter Notebooks
+- Visual Studio Code
 
 ---
 
-# Data Source
+## Data Source
 
 Financial data used in this project was collected from the Morningstar platform, which provides standardized financial information for publicly traded companies.
 
-# Author
+---
+
+## Setup
+
+To run the project locally:
+
+1. Clone the repository
+
+git clone https://github.com/Kia2002/stock-trend-prediction-ffnn.git
+
+2. Navigate to the project folder
+
+cd repository-name
+
+3. Install required libraries
+
+pip install numpy pandas scikit-learn jupyter
+
+---
+
+## Running Experiments
+
+Experiments can be reproduced using the provided Jupyter notebooks.
+
+1. Open the project folder in Visual Studio Code.
+2. Open the notebook located in the `data_preparation` directory and run all cells to preprocess the dataset and generate the cleaned dataset used for modeling.
+3. After data preparation is completed, open the notebooks corresponding to each model experiment.
+4. Run the notebooks for:
+   - Model 1
+   - Model 2
+   - Model 3
+   - Model 2 vs Model 3
+5. Each notebook contains the full pipeline including feature preparation, model training, and evaluation of results.
+
+---
+
+## Author
 
 Aleksa Vlaški  
