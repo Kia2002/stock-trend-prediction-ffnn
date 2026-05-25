@@ -1,238 +1,134 @@
-# Stock Trend Prediction Using Feed-Forward Neural Networks and Financial Ratio Analysis
+# Stock Trend Prediction Using Feed-Forward Neural Networks
+
+A machine learning research project investigating whether fundamental financial ratios derived from company financial statements can be used to predict the future direction of stock prices, with a focus on the healthcare sector.
 
 ## Overview
 
-This repository contains research focused on predicting stock price trends using machine learning models based on financial ratio analysis.
+This project explores the application of Feed-Forward Neural Networks (FFNN) to the problem of stock trend prediction using financial ratio analysis. Two feature engineering approaches are compared: raw individual financial indicators versus aggregated composite indicators constructed using interpolative Boolean algebra. The study evaluates prediction performance across multiple time horizons and network architectures.
 
-The project investigates whether fundamental financial indicators derived from company financial statements can be used to predict the future direction of stock prices.
+## Research Questions
 
-The experiments focus on companies from the healthcare sector and combine approaches from:
-
-- financial analysis
-- machine learning
-- neural networks
-- decision modeling
-
-The core modeling approach uses Feed-Forward Neural Networks (FFNN) trained on financial indicators and aggregated financial features.
-
----
+- Can financial ratios derived from company financial statements reliably predict future stock price trends?
+- Are feed-forward neural networks capable of extracting meaningful patterns from fundamental financial indicators?
+- Does aggregating financial ratios into composite indicators improve model stability and predictive performance?
+- How does prediction accuracy vary across different time horizons?
 
 ## Dataset
 
-The dataset contains financial indicators for publicly traded healthcare companies.
+Financial data was collected from [Morningstar](https://www.morningstar.com/) for publicly traded healthcare sector companies. Indicators span multiple categories of financial ratios:
 
-Indicators are derived from company financial statements and include multiple categories of financial ratios such as:
+| Category | Example Indicators |
+|---|---|
+| Liquidity | Current ratio, quick ratio |
+| Profitability | EBITDA margin, return on equity (ROE) |
+| Leverage | Debt-to-EBITDA ratio |
+| Efficiency | Asset turnover |
+| Valuation | Price-based valuation metrics, EPS |
+| Cash Flow | CapEx-to-revenue ratio |
 
-- liquidity ratios
-- profitability ratios
-- leverage ratios
-- efficiency ratios
-- valuation indicators
-- cash-flow related metrics
+### Preprocessing
 
-Examples of indicators include:
-
-- EBITDA margin
-- Return on equity (ROE)
-- earnings per share (EPS)
-- debt to EBITDA ratio
-- capital expenditures to revenue ratio
-- price-based valuation metrics
-
----
-
-## Data Preparation
-
-Several preprocessing steps were applied before training the models.
-
-### Handling Missing Values
-
-Financial datasets frequently contain missing values.
-
-To improve model reliability:
-
-- missing values were replaced with column mean values
-- columns with more than 50% missing values were removed
-
-### Standardization
-
-All numerical features were standardized before training in order to prevent variables with larger scales from dominating the learning process.
-
----
+- Missing values replaced with column means
+- Columns with more than 50% missing values removed
+- All features standardized before training
 
 ## Feature Engineering
 
-Two different feature approaches were analyzed.
+Two distinct input representations are compared:
 
-### Individual Financial Indicators
+**Individual Financial Indicators** — Raw financial ratios used directly as model inputs, preserving full granularity.
 
-The first approach uses individual financial ratios directly as input features for the neural network.
+**Aggregated Financial Indicators** — Composite indicators constructed from groups of financial ratios using:
+- Weighted linear aggregation
+- Logical aggregation based on interpolative Boolean algebra
 
-This preserves detailed information about each financial indicator.
+Aggregation reduces input dimensionality and creates higher-level features that represent broader financial health dimensions.
 
-### Aggregated Financial Indicators
+## Model Architecture
 
-The second approach uses aggregated indicators constructed from groups of financial ratios.
+The primary model is a Feed-Forward Neural Network implemented with scikit-learn's `MLPClassifier`.
 
-Two aggregation methods were used:
+| Parameter | Configuration |
+|---|---|
+| Optimizer | Adam |
+| Activation | ReLU |
+| Regularization | L2 |
+| Early Stopping | Enabled |
+| Max Iterations | 2000 |
 
-- weighted linear aggregation
-- logical aggregation based on interpolative Boolean algebra
-
-This approach reduces dimensionality and creates composite indicators representing broader financial characteristics.
-
----
-
-## Machine Learning Model
-
-The primary model used in the experiments is a Feed-Forward Neural Network implemented using the MLPClassifier algorithm.
-
-Configuration includes:
-
-- Adam optimizer
-- ReLU activation function
-- L2 regularization
-- early stopping to prevent overfitting
-- up to 2000 training iterations
-
-Multiple network architectures were tested with different numbers of hidden layers and neurons.
-
----
+Multiple architectures were evaluated by varying the number of hidden layers and neurons per layer.
 
 ## Data Split
 
-The dataset was divided into:
+| Split | Proportion |
+|---|---|
+| Training | 70% |
+| Validation | 15% |
+| Test | 15% |
 
-- Training set — 70%
-- Validation set — 15%
-- Test set — 15%
-
-The validation set was used for model selection before evaluating final performance on the test set.
-
----
+The validation set was used for architecture selection; final performance is reported on the held-out test set.
 
 ## Prediction Tasks
 
-Three modeling approaches were explored.
+Three prediction tasks are investigated:
 
-### Return Prediction
-
-Predicting the future return value of a stock.
-
-### Trend Prediction
-
-Predicting the direction of price movement as a classification problem.
-
-Trend labels were defined using thresholds on stock returns.
-
-### Trend Prediction with Aggregated Indicators
-
-Using aggregated financial indicators as input features to examine whether aggregation improves prediction stability.
-
----
+1. **Return Prediction** — Regression task predicting the future return value of a stock.
+2. **Trend Prediction** — Binary classification predicting price movement direction, with trend labels derived from return thresholds.
+3. **Trend Prediction with Aggregated Indicators** — Same classification task using aggregated composite features as inputs.
 
 ## Model Selection
 
-A custom metric called Selection Score was used to select the best model architectures.
+A custom **Selection Score** metric was used for architecture selection:
 
-For regression tasks the score balances validation performance and overfitting risk.
+- **Regression tasks:** Balances validation performance against overfitting risk.
+- **Classification tasks:** Combines precision with the generalization gap between training and validation accuracy.
 
-For classification tasks the score combines precision and generalization ability between training and validation datasets.
+## Tech Stack
 
----
+| Tool | Purpose |
+|---|---|
+| Python | Primary language |
+| NumPy | Numerical computation |
+| Pandas | Data manipulation |
+| Scikit-learn | ML model implementation |
+| SciPy | Statistical functions |
+| Matplotlib / Seaborn | Plotting and visualization |
+| openpyxl | Reading and writing `.xlsx` data files |
 
-## Experiments
+## Getting Started
 
-Several experiments were conducted in order to evaluate the predictive capabilities of neural networks trained on financial indicators.
+### Prerequisites
 
-Different neural network architectures were tested by varying:
+- Python 3.8+
+- pip
 
-- number of hidden layers
-- number of neurons per layer
-- feature sets used as model inputs
-- prediction horizons
+### Installation
 
-The experiments compare the performance of models trained on:
-
-- raw financial ratios
-- aggregated financial indicators
-
-This allows analysis of how feature dimensionality and information aggregation affect prediction performance.
-
----
-
-## Key Research Questions
-
-The project investigates several research questions:
-
-- Can financial ratios derived from company financial statements predict future stock trends?
-- Are feed-forward neural networks capable of detecting meaningful patterns in fundamental financial indicators?
-- Does aggregation of financial ratios improve model stability and predictive performance?
-- How does prediction performance change across different time horizons?
-
----
-
-## Technologies
-
-The project uses tools and concepts from the following areas:
-
-- Machine Learning
-- Neural Networks
-- Financial Analysis
-- Data Preprocessing
-- Feature Engineering
-
-Tools used in the implementation include:
-
-- Python
-- NumPy
-- Pandas
-- Scikit-learn
-- Jupyter Notebooks
-- Visual Studio Code
-
----
-
-## Data Source
-
-Financial data used in this project was collected from the Morningstar platform, which provides standardized financial information for publicly traded companies.
-
----
-
-## Setup
-
-To run the project locally:
-
-1. Clone the repository
-
+```bash
 git clone https://github.com/Kia2002/stock-trend-prediction-ffnn.git
+cd stock-trend-prediction-ffnn
+pip install numpy pandas scikit-learn scipy matplotlib seaborn openpyxl
+```
 
-2. Navigate to the project folder
+### Running Experiments
 
-cd repository-name
+The pipeline is implemented as standalone Python scripts (not notebooks).
 
-3. Install required libraries
+1. Open the project in your editor of choice (e.g., VS Code).
+2. Each script defines a hardcoded `folder_putanja` (or input file path) pointing to its own directory on the original author's machine. Before running a script, update this path to the corresponding directory in your local clone.
+3. Run `data_preparation/data_preparation.py` to preprocess the dataset.
+4. After data preparation completes, run the experiment scripts in order:
+   - `Model 1/model1.py` — Baseline model on individual indicators
+   - `Model 2/model 2.py` — Model on aggregated indicators (linear aggregation)
+   - `Model 3/model3.py` — Model on aggregated indicators (logical aggregation)
+   - `Model 2 vs Model 3/model2_averages.py` and `model3_averages.py` — Comparative analysis of aggregation methods
 
-pip install numpy pandas scikit-learn jupyter
-
----
-
-## Running Experiments
-
-Experiments can be reproduced using the provided Jupyter notebooks.
-
-1. Open the project folder in Visual Studio Code.
-2. Open the notebook located in the `data_preparation` directory and run all cells to preprocess the dataset and generate the cleaned dataset used for modeling.
-3. After data preparation is completed, open the notebooks corresponding to each model experiment.
-4. Run the notebooks for:
-   - Model 1
-   - Model 2
-   - Model 3
-   - Model 2 vs Model 3
-5. Each notebook contains the full pipeline including feature preparation, model training, and evaluation of results.
-
----
+Each script covers a stage of the pipeline: feature preparation, model training and evaluation, or results comparison, writing its output to `.xlsx` files in its own directory.
 
 ## Author
 
-Aleksa Vlaški  
+Aleksa Vlaški
+
+## License
+
+This project is intended for academic and portfolio purposes.
